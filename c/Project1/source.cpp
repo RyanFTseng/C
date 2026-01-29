@@ -108,6 +108,12 @@ namespace saff
 }
 
 
+void clear(const char* file)
+{
+	std::ofstream out(file);
+}
+
+
 void write(const char* file) 
 {
 	std::ofstream out(file, std::ios_base::app);
@@ -136,11 +142,16 @@ int main()
 	char current[256];
 	saff::print("(l)oad (s)ave (a)dd (q)uit or (p)rint? ");
 	saff::read(buffer, 256);
-	if (buffer[0] == 'a')
-	{
-		saff::print("\n Enter Name: ");
-		write("temp.txt");
-		
+	switch(buffer[0])
+	{ 
+		case 'a':
+			saff::print("\n Enter Name: ");
+			write("temp.txt");
+			break;
+		case 'q':
+			clear("temp.txt");
+			return 0;
+			
 	}
 
 
