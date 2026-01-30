@@ -135,63 +135,68 @@ void write(const char* file)
 
 }
 
+void writeChar(const char* file, char c)
+{
+	std::ofstream out(file, std::ios_base::app);
+	out.put(c);
+
+}
+
+
+void print()
+{
+	std::ifstream in("temp.txt");
+	saff::print("\n");
+	for (char c = in.get(); in.good(); c = in.get())
+	{
+		_putch(c);
+	}
+}
 
 int main()
 {
 	char buffer[256];
 	char current[256];
-	saff::print("(l)oad (s)ave (a)dd (q)uit or (p)rint? ");
-	saff::read(buffer, 256);
-	switch(buffer[0])
-	{ 
+	int toggle = 1;
+	
+	while (toggle == 1)
+	{
+		saff::print("\n(l)oad (s)ave (a)dd (q)uit or (p)rint? \n");
+		saff::read(buffer, 256);
+
+		switch (buffer[0])
+		{
 		case 'a':
-			saff::print("\n Enter Name: ");
+			saff::print("\nEnter name: ");
+			write("temp.txt");
+			saff::print("\nEnter amount: ");
 			write("temp.txt");
 			break;
 		case 'q':
 			clear("temp.txt");
+			toggle = 0;
 			return 0;
-			
-	}
+			break;
+		case 's':
+			saff::print("\nEnter file name: ");
+			break;
+		case 'p':
+			print();
+			break;
+		case 'l':
+			clear("temp.txt");
+			saff::print("\nEnter file name: ");
+			saff::read(buffer, 256);
+			std::ifstream in(buffer);
+			for (char c = in.get(); in.good(); c = in.get())
+			{
+				writeChar("temp.txt", c);
+			}
+			break;
 
-
-	std::ifstream in("wah.txt");
-	if (!in)
-	{
-		saff::print("failed to open file");
-		while (!_kbhit());
-		return -1;
+		}
 	}
 	
-	in.seekg(0, std::ios_base::end);
-	const int length = in.tellg();
-	in.seekg(0, std::ios_base::beg);
-
-	for (char c = in.get(); in.good(); c = in.get())
-	{
-		_putch(c);
-	}
-
-	if (in.bad())
-	{
-		saff::print("\nerror");
-	}
-	else if (in.eof())
-	{
-		saff::print("\nreached end of file");
-	}
-	else
-	{
-		saff::print("\nfailure");
-	}
-
-	std::ofstream out("out.txt");
-
-	for (char c = _getch(); c !=13; c = _getch())
-	{
-		_putch(c);
-		out.put(c);
-	}
 
 	
 
