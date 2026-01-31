@@ -123,16 +123,19 @@ void write(const char* file)
 		_putch(c);
 		out.put(c);
 	}
-	const char newLine[] = "\n";
-	for (char c : newLine) 
-	{
-		if(c==0)
-		{
-			out.put(c);
-		}
-	}
+	
 	
 
+}
+
+void appendNewLine(const char* file) {
+
+	std::ofstream out(file, std::ios_base::app);
+	const char newLine[] = "\n";
+	for (char c : newLine)
+	{
+		out.put(c);
+	}
 }
 
 void writeChar(const char* file, char c)
@@ -153,6 +156,15 @@ void print()
 	}
 }
 
+void save(const char* file)
+{
+	std::ifstream in("temp.txt");
+	for (char c = in.get(); in.good(); c = in.get())
+	{
+		writeChar(file, c);
+	}
+}
+
 int main()
 {
 	char buffer[256];
@@ -170,7 +182,13 @@ int main()
 			saff::print("\nEnter name: ");
 			write("temp.txt");
 			saff::print("\nEnter amount: ");
-			write("temp.txt");
+			saff::read(buffer, 256);
+			
+			for (int i = 0; i < saff::str2int(buffer); i++)
+			{
+				writeChar("temp.txt", '=');
+			}
+			appendNewLine("temp.txt");
 			break;
 		case 'q':
 			clear("temp.txt");
@@ -179,6 +197,10 @@ int main()
 			break;
 		case 's':
 			saff::print("\nEnter file name: ");
+			saff::read(buffer, 256);
+			clear(buffer);
+			save(buffer);
+
 			break;
 		case 'p':
 			print();
