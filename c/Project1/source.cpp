@@ -165,12 +165,12 @@ void save(const char* file)
 	}
 }
 
-int main()
+void activatedb()
 {
 	char buffer[256];
 	char current[256];
 	int toggle = 1;
-	
+
 	while (toggle == 1)
 	{
 		saff::print("\n(l)oad (s)ave (a)dd (q)uit or (p)rint? \n");
@@ -183,7 +183,7 @@ int main()
 			write("temp.txt");
 			saff::print("\nEnter amount: ");
 			saff::read(buffer, 256);
-			
+
 			for (int i = 0; i < saff::str2int(buffer); i++)
 			{
 				writeChar("temp.txt", '=');
@@ -193,7 +193,7 @@ int main()
 		case 'q':
 			clear("temp.txt");
 			toggle = 0;
-			return 0;
+			//return 0;
 			break;
 		case 's':
 			saff::print("\nEnter file name: ");
@@ -218,9 +218,35 @@ int main()
 
 		}
 	}
-	
 
-	
+
+
+
+	while (!_kbhit());
+}
+
+
+int main()
+{
+	std::ifstream warp_file("warp.txt");
+	constexpr int file_size = 3359405 + 1;
+	char* warp_string = new char[file_size];
+
+	//read file into array
+	int i = 0;
+	for (char c = warp_file.get(); warp_file.good(); c = warp_file.get())
+	{
+		warp_string[i++] = c;
+	}
+	//i = num characters
+	warp_string[i] = 0;
+
+	//display actual number of bytes copied into array
+	char buffer[256];
+	saff::int2str(i, buffer, sizeof(buffer));
+	saff::print(buffer);
+
+	delete [] warp_string;
 
 	while (!_kbhit());
 	return 0;
